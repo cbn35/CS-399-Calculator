@@ -1,10 +1,13 @@
 package com.example.chance.cs_399_calculator;
 
+import android.renderscript.Double2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -108,28 +111,28 @@ public class MainActivity extends AppCompatActivity {
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                calc[0] += "+";
+                calc[0] += " + ";
                 textView.setText(calc[0]);
             }
         });
 
         buttonDivide.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                calc[0] += "/";
+                calc[0] += " / ";
                 textView.setText(calc[0]);
             }
         });
 
         buttonSubtract.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                calc[0] += "-";
+                calc[0] += " - ";
                 textView.setText(calc[0]);
             }
         });
 
         buttonMultiply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                calc[0] += "*";
+                calc[0] += " * ";
                 textView.setText(calc[0]);
             }
         });
@@ -160,8 +163,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String exec_calc(String input) {
+        String[] parts = input.split(" ");
 
+        try {
 
-        return input;
+            for (int i = 0; i < parts.length; i++) {
+                if (parts[i].equals("+")) {
+                    double temp = Double.parseDouble(parts[i - 1]) + Double.parseDouble(parts[i + 1]);
+                    parts[i + 1] = Double.toString(temp);
+                }
+
+                if (parts[i].equals("-")) {
+                    double temp = Double.parseDouble(parts[i - 1]) - Double.parseDouble(parts[i + 1]);
+                    parts[i + 1] = Double.toString(temp);
+                }
+
+                if (parts[i].equals("/")) {
+                    double temp = Double.parseDouble(parts[i - 1]) / Double.parseDouble(parts[i + 1]);
+                    parts[i + 1] = Double.toString(temp);
+                }
+
+                if (parts[i].equals("*")) {
+                    double temp = Double.parseDouble(parts[i - 1]) * Double.parseDouble(parts[i + 1]);
+                    parts[i + 1] = Double.toString(temp);
+                }
+
+            }
+
+            return parts[parts.length - 1];
+
+        }
+
+        catch(Exception e) {
+            return "ERROR";
+        }
+
     }
+
 }
